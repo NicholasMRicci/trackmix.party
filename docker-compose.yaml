@@ -1,9 +1,27 @@
-version: "3.8"
 services:
     backend:
+        container_name: trackmix-backend
         build: ./backend
-        restart: unless-stopped
         environment:
-            - CF_API_TOKEN=${CF_API_TOKEN}
+            - COOKIE_SECRET=${COOKIE_SECRET}
+        restart: unless-stopped
         # depends_on:
         #     - db
+
+    caddy:
+        container_name: trackmix-caddy
+        build: ./caddy
+        environment:
+            - CF_API_TOKEN=${CF_API_TOKEN}
+        ports:
+            - 8080:80
+            - 8443:443
+        volumes:
+            - caddy_data:/data
+            - caddy_config:/config
+        restart: unless-stopped
+
+volumes:
+    caddy_data:
+        external: true
+    caddy_config:

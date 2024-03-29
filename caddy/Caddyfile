@@ -1,7 +1,7 @@
-tls {
-	dns cloudflare {env.CF_API_TOKEN}
+{
+    acme_dns cloudflare {$CF_API_TOKEN}
 }
 
 api.trackmix.party {
-
+	reverse_proxy backend:3000
 }

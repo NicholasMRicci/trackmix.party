@@ -1,11 +1,14 @@
 const express = require('express'); // load express
+const session = require('express-session'); // load express
 app = express();      // create instance
 
-if (app.get('env') === 'production') {
-    app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-}
-app.use(session(sess))
+app.use(session({
+    proxy: true,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+        secure: true
+    }
+}));
 
 
 app.get('/hello', (req, res) =>  // respond HTTP GET
