@@ -2,8 +2,11 @@ services:
     backend:
         container_name: trackmix-backend
         build: ./backend
-        environment:
-            - COOKIE_SECRET=${COOKIE_SECRET}
+        env_file:
+            - path: .env
+              required: true
+        depends_on:
+            - database
         restart: unless-stopped
         # depends_on:
         #     - db
@@ -11,16 +14,31 @@ services:
     caddy:
         container_name: trackmix-caddy
         build: ./caddy
-        environment:
-            - CF_API_TOKEN=${CF_API_TOKEN}
+        env_file:
+            - path: .env
+              required: true
         ports:
             - 8080:80
             - 8443:443
         volumes:
             - caddy_data:/data
             - caddy_config:/config
+        depends_on:
+            - backend
+            # - frontend
         restart: unless-stopped
 
+    database:
+        container_name: trackmix-database
+        image: mongo:latest
+        restart: unless-stopped
+        ports:
+            - 27017:27017
+        volumes:
+            - ./database:/data/db
+        env_file:
+            - path: .env
+              required: true
 volumes:
     caddy_data:
         external: true

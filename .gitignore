@@ -1,5 +1,4 @@
 .env
-
-**/node_modules/**
-./backend/**.js
-./backend/index.js
+node_modules/
+database/*
+backend**/*.js
