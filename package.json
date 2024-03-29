@@ -7,8 +7,5 @@
     "logs": "sudo docker compose logs"
   },
   "author": "Nicholas Ricci",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.20.2"
-  }
+  "license": "ISC"
 }

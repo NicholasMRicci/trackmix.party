@@ -19,14 +19,13 @@ async function getUser(req: Request, res: Response) {
 }
 
 async function createUser(req: Request, res: Response) {
-    console.log(req.body)
     const body = req.body;
     if (!body['username'] || !body['password']) {
         res.status(400).send('Bad Request: username and password are required');
         return;
     }
-    const salt = await bcrypt.genSalt(10)
-    const hash = await bcrypt.hash(body['password'], salt)
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(body['password'], salt);
     const user = new userModel({
         username: body['username'],
         password: hash,

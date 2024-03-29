@@ -5,7 +5,7 @@ import registerUserRoutes from "./users/users";
 import registerAuthRoutes from "./users/auth";
 import cors from "cors";
 
-function startServer() {
+async function startServer() {
     const app: Express = express();
     const port = process.env.PORT || 3000;
 
@@ -20,7 +20,8 @@ function startServer() {
         secret: process.env.COOKIE_SECRET!,
         cookie: {
             secure: true
-        }
+        },
+        resave: true
     }));
 
     app.use(cors({
@@ -32,7 +33,7 @@ function startServer() {
 
     app.disable("x-powered-by");
 
-    mongoose.connect(process.env.MONGODB_URI!);
+    await mongoose.connect(process.env.MONGODB_URI!);
 
     registerUserRoutes(app);
     registerAuthRoutes(app);
