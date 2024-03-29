@@ -1,0 +1,14 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend for trackmix.party",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Nicholas Ricci",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

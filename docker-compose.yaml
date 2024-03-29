@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+    backend:
+        build: ./backend
+        restart: unless-stopped
+        environment:
+            - CF_API_TOKEN=${CF_API_TOKEN}
+        # depends_on:
+        #     - db
