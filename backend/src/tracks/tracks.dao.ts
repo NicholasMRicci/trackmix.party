@@ -9,16 +9,14 @@ const trackSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
     },
     file: {
-        type: Schema.Types.ObjectId,
-        ref: 'GFS'
+        type: String,
     },
     date: {
         type: Date,
         default: Date.now
     }
-}, { collection: 'post' });
+}, { collection: 'track' });
 
-export const userModel = mongoose.model("Track", trackSchema);
+export const trackModel = mongoose.model("Track", trackSchema);

@@ -1,6 +1,11 @@
-import { Request, Response } from 'express';
+import { Request, Response, Express, NextFunction } from 'express';
 import { userModel } from "./users.dao";
 import bcrypt from "bcrypt";
+
+const exceptions = [
+    { path: '/login', method: 'POST', exact: true },
+    { path: '/users', method: 'POST', exact: true }
+];
 
 async function handleLogin(req: Request, res: Response) {
     // Check if already logged in
@@ -43,9 +48,22 @@ function whoAmI(req: Request, res: Response) {
     }
 }
 
-function registerAuthRoutes(app: any) {
+export function registerAuthRoutes(app: Express) {
     app.post('/login', handleLogin);
     app.get('/whoami', whoAmI);
 }
 
-export default registerAuthRoutes;
+export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
+    if (req.session.profile) {
+        next();
+    } else {
+        for (const route of exceptions) {
+            if ((!route.exact && req.path.startsWith(route.path) || req.path === route.path)
+                && req.method === route.method) {
+                next();
+                return;
+            }
+        }
+        res.status(401).send('Not logged in');
+    }
+}

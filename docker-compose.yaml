@@ -5,6 +5,8 @@ services:
         env_file:
             - path: .env
               required: true
+        volumes:
+            - ./audio/:/audio
         depends_on:
             - database
         restart: unless-stopped

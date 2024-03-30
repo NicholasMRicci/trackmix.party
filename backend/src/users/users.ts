@@ -20,6 +20,10 @@ async function getUser(req: Request, res: Response) {
 
 async function createUser(req: Request, res: Response) {
     const body = req.body;
+    if (body.signupKey !== process.env.SIGNUP_KEY) {
+        res.status(401).send('Signup key is invalid');
+        return;
+    }
     if (!body['username'] || !body['password']) {
         res.status(400).send('Bad Request: username and password are required');
         return;

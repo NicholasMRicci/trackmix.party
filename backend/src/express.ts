@@ -1,8 +1,9 @@
-import express, { Express, } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import session from "express-session";
 import mongoose from "mongoose";
 import registerUserRoutes from "./users/users";
-import registerAuthRoutes from "./users/auth";
+import { registerAuthRoutes, requireAuth } from "./users/auth";
+import registerTrackRoutes from "./tracks/tracks";
 import cors from "cors";
 
 async function startServer() {
@@ -30,6 +31,8 @@ async function startServer() {
     }));
 
     app.use(express.json())
+    app.use(express.urlencoded());
+    app.use(requireAuth);
 
     app.disable("x-powered-by");
 
@@ -37,6 +40,7 @@ async function startServer() {
 
     registerUserRoutes(app);
     registerAuthRoutes(app);
+    registerTrackRoutes(app);
 
     app.listen(port);
 }
