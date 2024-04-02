@@ -5,6 +5,7 @@ import registerUserRoutes from "./users/users";
 import { registerAuthRoutes, requireAuth } from "./users/auth";
 import registerTrackRoutes from "./tracks/tracks";
 import cors from "cors";
+import registerPostRoutes from "./posts/posts";
 
 async function startServer() {
     const app: Express = express();
@@ -20,9 +21,11 @@ async function startServer() {
         proxy: true,
         secret: process.env.COOKIE_SECRET!,
         cookie: {
-            secure: true
+            secure: true,
+            sameSite: 'strict',
         },
-        resave: true
+        resave: true,
+        saveUninitialized: false
     }));
 
     app.use(cors({
@@ -30,9 +33,11 @@ async function startServer() {
         origin: process.env.FRONTEND_URL
     }));
 
+
     app.use(express.json())
     app.use(express.urlencoded());
     app.use(requireAuth);
+    // app.use('/audio', express.static('/audio'));
 
     app.disable("x-powered-by");
 
@@ -41,6 +46,7 @@ async function startServer() {
     registerUserRoutes(app);
     registerAuthRoutes(app);
     registerTrackRoutes(app);
+    registerPostRoutes(app);
 
     app.listen(port);
 }

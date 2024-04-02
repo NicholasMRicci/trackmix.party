@@ -21,4 +21,4 @@ const postSchema = new mongoose.Schema({
     }
 }, { collection: 'post' });
 
-export const userModel = mongoose.model("Post", postSchema);
+export const postModel = mongoose.model("Post", postSchema);

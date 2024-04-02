@@ -4,14 +4,15 @@ import bcrypt from "bcrypt";
 
 const exceptions = [
     { path: '/login', method: 'POST', exact: true },
-    { path: '/users', method: 'POST', exact: true }
+    { path: '/users', method: 'POST', exact: true },
+    { path: '/posts', method: 'GET', exact: false },
 ];
 
 async function handleLogin(req: Request, res: Response) {
     // Check if already logged in
     if (req.session.profile) {
         req.session.touch();
-        res.status(200).send('Already logged in');
+        res.status(200).json(req.session.profile);
         return;
     }
 
@@ -32,7 +33,7 @@ async function handleLogin(req: Request, res: Response) {
         user.password = "";
         req.session.profile = user;
         req.session.save();
-        res.status(200).send('Logged in');
+        res.status(200).json(req.session.profile);
     } else {
         res.status(401).send('Unauthorized');
         return;

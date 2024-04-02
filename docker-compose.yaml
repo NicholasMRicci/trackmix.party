@@ -6,12 +6,22 @@ services:
             - path: .env
               required: true
         volumes:
+            - ./backend:/app
             - ./audio/:/audio
         depends_on:
             - database
         restart: unless-stopped
-        # depends_on:
-        #     - db
+
+    frontend:
+        container_name: trackmix-frontend
+        build: ./frontend
+        env_file:
+            - path: .env
+              required: true
+        volumes:
+            - ./frontend:/app
+            # - ./static:/build
+        restart: "unless-stopped"
 
     caddy:
         container_name: trackmix-caddy
@@ -25,6 +35,8 @@ services:
         volumes:
             - caddy_data:/data
             - caddy_config:/config
+            - ./audio/:/audio
+            # - ./static:/static
         depends_on:
             - backend
             # - frontend

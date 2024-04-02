@@ -1,11 +1,10 @@
 {
-  "name": "trackmix",
+  "name": "trackmix.party",
   "version": "1.0.0",
-  "description": "trackmix.party",
+  "description": "",
   "scripts": {
-    "start": "sudo docker compose up -d --build",
-    "logs": "sudo docker compose logs"
+    "start": "sudo docker compose up --build -d"
   },
-  "author": "Nicholas Ricci",
+  "author": "",
   "license": "ISC"
 }
