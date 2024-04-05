@@ -16,13 +16,26 @@ function Navbar() {
                         <li className="nav-item">
                             <a className="nav-link" aria-current="page" href="#">Home</a>
                         </li>
-                        <li className="nav-item">
-                            {profile.username ? <Link className="nav-link" to="Profile">Profile</Link> : <Link className="nav-link" to="Login">Log In</Link>}
-                        </li>
-                        {profile.username &&
+                        {profile._id &&
+                            <li className="nav-item">
+                                <Link className="nav-link" to="Profile">Profile</Link>
+                            </li>
+                        }
+                        {!profile._id &&
+                            <li className="nav-item">
+                                <Link className="nav-link" to="Login">Log In</Link>
+                            </li>
+                        }
+                        {profile._id &&
                             <li className="nav-item">
                                 <Link className="nav-link" to="Post">Post</Link>
-                            </li>}
+                            </li>
+                        }
+                        {!profile._id &&
+                            <li className="nav-item">
+                                <Link className="nav-link" to="Signup">Sign up</Link>
+                            </li>
+                        }
                     </ul>
                     <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

@@ -11,13 +11,12 @@ function CreatePost() {
         event.preventDefault();
         createPost({ title, description }).
             then((data) => {
-                console.log(data)
                 setDescription('');
                 setTitle('');
                 setMessage('Post created successfully');
                 setTimeout(() => {
                     setMessage('');
-                })
+                }, 5000)
             }).catch((err) => {
                 alert(err.response.data);
             })
@@ -26,14 +25,14 @@ function CreatePost() {
         <div className="container">
             <h1>Create Post</h1>
             <div className="row justify-content-center">
-                <form className="col-11 col-sm-8 col-md-6">
+                <form className="col-11 col-sm-8 col-md-6" noValidate={true}>
                     <div>
                         <label htmlFor="titleInput">Title</label>
-                        <input value={title} onChange={(e) => { setTitle(e.target.value) }} id="titleInput" className="form-control" type="text" />
+                        <input value={title} onChange={(e) => { setTitle(e.target.value) }} id="titleInput" className="form-control" type="text" required={true} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="descriptionInput">Description</label>
-                        <textarea className="form-control" id="descriptionInput" rows={3} value={description} onChange={(e) => { setDescription(e.target.value) }}></textarea>
+                        <textarea className="form-control" id="descriptionInput" rows={3} value={description} onChange={(e) => { setDescription(e.target.value) }} required={true}></textarea>
                     </div>
                     <button disabled={disabled} onClick={handleSubmit} className="btn btn-primary m-2" type="submit">Create</button>
                 </form>

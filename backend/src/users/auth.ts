@@ -21,7 +21,7 @@ async function handleLogin(req: Request, res: Response) {
         res.status(400).send('Bad Request: username and password are required');
         return;
     }
-
+    console.log(body['password'])
     const user = await userModel.findOne({ username: body['username'] });
     if (!user) {
         res.status(404).send('User not found');
@@ -41,6 +41,18 @@ async function handleLogin(req: Request, res: Response) {
 
 }
 
+function handleLogout(req: Request, res: Response) {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            res.status(200).send('Logged out');
+        }
+    });
+
+}
+
 function whoAmI(req: Request, res: Response) {
     if (req.session.profile) {
         res.json(req.session.profile);
@@ -52,6 +64,7 @@ function whoAmI(req: Request, res: Response) {
 export function registerAuthRoutes(app: Express) {
     app.post('/login', handleLogin);
     app.get('/whoami', whoAmI);
+    app.post('/logout', handleLogout);
 }
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
