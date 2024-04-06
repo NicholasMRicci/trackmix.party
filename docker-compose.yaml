@@ -19,8 +19,8 @@ services:
               required: true
         volumes:
             # - ./frontend:/app
-            - ./static:/build
-        restart: "unless-stopped"
+            - ./frontend/build:/app/build
+        restart: "no"
 
     caddy:
         container_name: trackmix-caddy
