@@ -3,15 +3,7 @@ import { getPosts } from "../Client/client";
 import PostCard from "./card";
 import { useSelector } from "react-redux";
 import store, { RootState } from "../store";
-import { setPosts } from "./reducer";
-
-export interface Post {
-    _id: string;
-    title: string;
-    description: string;
-    date: string;
-    user_id: string;
-}
+import { Post, setPosts } from "./reducer";
 
 function PostList() {
     const posts = useSelector((state: RootState) => state.postReducer.posts);
@@ -26,7 +18,7 @@ function PostList() {
                     {posts.toSorted((post1: Post, post2: Post) => {
                         return post2.date.localeCompare(post1.date);
                     }).map((post: Post) => {
-                        return (<li className="list-group-item">
+                        return (<li className="list-group-item" key={post._id}>
                             <PostCard post={post} />
                         </li>)
                     })}

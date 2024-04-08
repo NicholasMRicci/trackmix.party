@@ -1,5 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Post } from "./list";
+import { User } from "../Profile/reducer";
+
+export interface Post {
+    _id: string;
+    title: string;
+    description: string;
+    date: string;
+    user: User;
+}
+
 const initialState: { posts: Post[] } = {
     posts: [],
 };

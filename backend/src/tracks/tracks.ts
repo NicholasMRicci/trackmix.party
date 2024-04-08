@@ -27,14 +27,14 @@ function createTrack(req: Request, res: Response) {
     });
     bb.on('close', () => {
         if (title === undefined) {
-            res.status(400).send();
-            fs.unlink("/audio/" + fileID + ".m4a", (err) => {
+            res.status(400).send("Title is required");
+            fs.unlink("/audio/" + fileID, (err) => {
                 console.log(err);
             });
             return;
         }
         const track = new trackModel({
-            user_id: req.session.profile!._id!,
+            user_id: req.session.profile?._id!,
             title: title,
             description: description,
             file: fileID
@@ -49,6 +49,32 @@ function createTrack(req: Request, res: Response) {
     req.pipe(bb);
 }
 
+function getMyTracks(req: Request, res: Response) {
+    if (req.session.profile?._id === undefined) {
+        res.status(400).send();
+        return;
+    }
+    trackModel.find({ user_id: req.session.profile._id }).then((tracks) => {
+        res.json(tracks);
+    });
+}
+
+function getTrack(req: Request, res: Response) {
+    if (req.params.id === undefined) {
+        res.status(400).send();
+        return;
+    }
+    trackModel.findOne({ _id: req.params.id }).then((track) => {
+        if (track === null) {
+            res.status(404).send();
+        } else {
+            res.json(track);
+        }
+    });
+}
+
 export default function registerTrackRoutes(app: Express) {
     app.post('/tracks', createTrack);
+    app.get('/tracks', getMyTracks)
+    app.get('/tracks/:id', getTrack);
 }

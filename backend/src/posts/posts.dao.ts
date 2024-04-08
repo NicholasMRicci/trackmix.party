@@ -1,7 +1,8 @@
 import mongoose, { Schema } from "mongoose";
+import { userSchema } from "../users/users.dao";
 const postSchema = new mongoose.Schema({
-    user_id: {
-        type: Schema.Types.ObjectId, ref: 'User',
+    user: {
+        type: userSchema,
         required: true
     },
     title: {
@@ -14,7 +15,8 @@ const postSchema = new mongoose.Schema({
     },
     startingTrack: {
         type: Schema.Types.ObjectId,
-        ref: 'Track'
+        ref: 'Track',
+        required: true
     },
     date: {
         type: Date,

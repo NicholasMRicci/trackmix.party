@@ -1,6 +1,6 @@
-import { Document, Schema } from "mongoose";
 import { postModel } from "./posts.dao";
 import { Request, Response, Express } from "express";
+import { userModel } from "../users/users.dao";
 
 function getPosts(req: Request, res: Response) {
     postModel.find({}).then((posts: any) => {
@@ -8,9 +8,10 @@ function getPosts(req: Request, res: Response) {
     });
 }
 
-function createPost(req: Request, res: Response) {
+async function createPost(req: Request, res: Response) {
     const body = req.body;
-    body.user_id = req.session.profile!._id;
+    const user_id = req.session.profile?._id;
+    body.user = await userModel.findOne({ _id: user_id });
     postModel.create(body).then((post: any) => {
         res.json(post);
     }).catch(
@@ -29,9 +30,7 @@ function deletePost(req: Request, res: Response) {
         then((post: any) => {
             if (post === null) {
                 res.sendStatus(404);
-            } else if (post.user_id.toString() !== req.session.profile!._id) {
-                console.log(post);
-                console.log(req.session.profile)
+            } else if (post.user._id.toString() !== req.session.profile?._id) {
                 res.sendStatus(403);
             } else {
                 postModel.deleteOne({ _id: req.params.id }).then(() => {

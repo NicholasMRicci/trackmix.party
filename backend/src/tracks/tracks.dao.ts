@@ -1,17 +1,16 @@
 import mongoose, { Schema } from "mongoose";
 const trackSchema = new mongoose.Schema({
     user_id: {
-        type: Schema.Types.ObjectId, ref: 'User'
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
     title: {
         type: String,
         required: true
     },
-    description: {
-        type: String,
-    },
     file: {
         type: String,
+        required: true
     },
     date: {
         type: Date,

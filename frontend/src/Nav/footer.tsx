@@ -3,7 +3,7 @@ export function Footer() {
         <footer className="mt-auto py-3 bg-light">
             <div className="container">
                 <span className="row text-muted justify-content-center">
-                    <div className="col-12">Trackmix.party  |  <a href="mailto:admin@trackmix.party">Contact</a></div>
+                    <div className="col-12">Trackmix.party  |  Contact: <a href="mailto:admin@trackmix.party">admin@trackmix.party</a></div>
                 </span>
             </div>
         </footer>

@@ -21,7 +21,10 @@ client.interceptors.response.use(function (response) {
     // Do something with response error
     if (error.response.status === 401) {
         store.dispatch(setProfile({}));
+    } else {
+        alert(error.response.data)
     }
+
     return Promise.reject(error);
 });
 
@@ -61,8 +64,19 @@ export async function sendLogin(username: string, password: string) {
 export async function sendSignup(data: { username: string, password: string, firstName: string, lastName: string }) {
     const response = await client.post("/users", data);
     const user = response.data;
-    store.dispatch(setProfile(user));
     return user;
+}
+
+export async function getMyTracks() {
+    return (await client.get("/tracks")).data;
+}
+
+export async function uploadTrack(data: FormData) {
+    return await client.post("/tracks", data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
 }
 
 export async function sendLogout() {

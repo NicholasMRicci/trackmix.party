@@ -17,30 +17,34 @@ function Navbar() {
                             <a className="nav-link" aria-current="page" href="#">Home</a>
                         </li>
                         {profile._id &&
-                            <li className="nav-item">
-                                <Link className="nav-link" to="Profile">Profile</Link>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="Profile">Profile</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="Post">Post</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="Upload">Upload Track</Link>
+                                </li>
+                            </>
                         }
                         {!profile._id &&
-                            <li className="nav-item">
-                                <Link className="nav-link" to="Login">Log In</Link>
-                            </li>
-                        }
-                        {profile._id &&
-                            <li className="nav-item">
-                                <Link className="nav-link" to="Post">Post</Link>
-                            </li>
-                        }
-                        {!profile._id &&
-                            <li className="nav-item">
-                                <Link className="nav-link" to="Signup">Sign up</Link>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="Login">Log In</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="Signup">Sign up</Link>
+                                </li>
+                            </>
+
                         }
                     </ul>
-                    <form className="d-flex">
+                    {/* <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+                    </form> */}
                 </div>
             </div>
         </nav>

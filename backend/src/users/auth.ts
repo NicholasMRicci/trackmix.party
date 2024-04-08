@@ -21,7 +21,6 @@ async function handleLogin(req: Request, res: Response) {
         res.status(400).send('Bad Request: username and password are required');
         return;
     }
-    console.log(body['password'])
     const user = await userModel.findOne({ username: body['username'] });
     if (!user) {
         res.status(404).send('User not found');

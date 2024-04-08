@@ -1,21 +1,17 @@
 import { useState } from "react";
 import { MakeForm, formMessage } from "../Utils/forms";
 import { sendSignup } from "../Client/client";
-import bcrypt from "bcryptjs";
 import { useNavigate } from "react-router";
 
 
 export function Signup() {
     const [data, setData] = useState({ username: "", password: "", firstName: "", lastName: "" });
-    const [message, setMessage] = useState<formMessage>(null);
+    const [message, setMessage] = useState<formMessage>(false);
     const navigate = useNavigate();
     const handleSignup = (event: any) => {
-        setMessage(null);
+        setMessage(false);
         event.preventDefault();
-        const newData = {
-            ...data, password: bcrypt.hashSync(data.password + data.username, 8)
-        };
-        sendSignup(newData).then((user) => {
+        sendSignup(data).then((user) => {
             navigate('/Login')
         }).catch((err) => {
             setMessage({ msg: err.toString(), type: "warning" });

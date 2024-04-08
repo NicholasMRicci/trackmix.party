@@ -1,0 +1,25 @@
+{
+	acme_dns cloudflare {$CF_API_TOKEN}
+}
+
+(cors) {
+	@origin header Origin {args.0}
+	header @origin {
+		Access-Control-Allow-Origin "{args.0}"
+		Access-Control-Request-Method GET
+	}
+}
+
+dev.trackmix.party {
+	reverse_proxy frontend:8443
+}
+
+api.dev.trackmix.party {
+	reverse_proxy backend:8443
+}
+
+audio.dev.trackmix.party {
+	import cors https://dev.trackmix.party
+	root * /audio
+	file_server
+}

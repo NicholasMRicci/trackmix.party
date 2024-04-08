@@ -29,8 +29,8 @@ services:
             - path: .env
               required: true
         ports:
-            - 8080:80
-            - 8443:443
+            - 80:80
+            - 443:3443
         volumes:
             - caddy_data:/data
             - caddy_config:/config

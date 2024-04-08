@@ -13,6 +13,7 @@ import Profile from './Profile/profile';
 import CreatePost from './Post/create';
 import { Footer } from './Nav/footer';
 import { Signup } from './Login/signup';
+import { UploadTrack } from './Tracks/create';
 
 function App() {
   useEffect(() => {
@@ -31,6 +32,7 @@ function App() {
               <Route path="Signup" element={<Signup />} />
               <Route path="Profile" element={<Profile />} />
               <Route path="Post" element={<CreatePost />} />
+              <Route path="Upload" element={<UploadTrack />} />
             </Routes></div>
           <Footer />
         </HashRouter>

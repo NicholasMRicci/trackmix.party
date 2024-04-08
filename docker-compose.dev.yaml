@@ -1,0 +1,65 @@
+services:
+  backend:
+    container_name: trackmix-backend-dev
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - path: .env.dev
+        required: true
+    volumes:
+      - ./backend:/app
+      - ./audio/:/audio
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  frontend:
+    container_name: trackmix-frontend-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - path: .env.dev
+        required: true
+    volumes:
+      - ./frontend:/app
+      # - ./frontend/build:/app/build
+    restart: "unless-stopped"
+
+  caddy:
+    container_name: trackmix-caddy-dev
+    build:
+      context: ./caddy
+      dockerfile: Dockerfile.dev
+    env_file:
+      - path: .env.dev
+        required: true
+    ports:
+      - 8080:80
+      - 8443:443
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./audio/:/audio
+      # - ./frontend/build:/static
+    depends_on:
+      - backend
+      # - frontend
+    restart: unless-stopped
+
+  database:
+    container_name: trackmix-database-dev
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ./database:/data/db
+    env_file:
+      - path: .env.dev
+        required: true
+volumes:
+  caddy_data:
+    external: true
+  caddy_config:
