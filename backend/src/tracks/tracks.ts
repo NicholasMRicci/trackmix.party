@@ -10,7 +10,7 @@ function createTrack(req: Request, res: Response) {
     var description: string | undefined = undefined;
     const fileID = crypto.randomUUID();
     bb.on('file', (name, file, info) => {
-        const saveTo = "/audio/" + fileID + ".m4a";
+        const saveTo = "/audio/" + fileID;
         file.pipe(fs.createWriteStream(saveTo));
     });
     bb.on('field', (fieldname, val) => {
