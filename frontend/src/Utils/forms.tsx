@@ -32,7 +32,7 @@ export function MakeForm(fields: { name: string, prop: string }[], getter: any, 
                 <button onClick={submitHander} type="submit" className="btn btn-primary m-2">Submit</button>
 
                 <div className="row justify-content-center">
-                    {message && <div className={"alert col-11 col-sm-8 col-md-6 " + (message.type === "success" ? "alert-success" : "alert-danger")}>{message.msg}</div>}
+                    {message && <div className={"alert" + (message.type === "success" ? "alert-success" : "alert-danger")}>{message.msg}</div>}
                 </div>
             </FormContainer>
         </>

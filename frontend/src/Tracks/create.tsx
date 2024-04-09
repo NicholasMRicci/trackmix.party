@@ -47,7 +47,7 @@ export function UploadTrack() {
                 <input className="form-control" id="formFileLg" type="file" accept="audio/*" onChange={handleFileChange} />
             </div>
             <button onClick={handleUpload} className="btn btn-primary m-2" type="submit">Upload</button>
-            {message && message}
+            {message && <div className={"alert"}>{message}</div>}
         </FormContainer>
     )
 }
