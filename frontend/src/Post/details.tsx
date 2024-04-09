@@ -21,7 +21,7 @@ export function PostDetails() {
             <h1>{post.title}</h1>
             <p>{post.description}</p>
             <audio controls>
-                <source src={process.env.REACT_APP_AUDIO_URL + "/" + post.startingTrack.file} />
+                <source src={process.env.REACT_APP_AUDIO_URL + "/" + post.startingTrack.file} type="audio/mp4" />
             </audio>
         </div>
     )

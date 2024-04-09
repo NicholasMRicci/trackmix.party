@@ -44,7 +44,7 @@ export function UploadTrack() {
             </div>
             <div className="m-2 form-group">
                 <label htmlFor="formFileLg" className="form-label">Choose file</label>
-                <input className="form-control" id="formFileLg" type="file" accept="audio/*" onChange={handleFileChange} />
+                <input className="form-control" id="formFileLg" type="file" accept=".m4a" onChange={handleFileChange} />
             </div>
             <button onClick={handleUpload} className="btn btn-primary m-2" type="submit">Upload</button>
             {message && <div className={"alert"}>{message}</div>}
