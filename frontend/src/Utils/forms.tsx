@@ -1,3 +1,5 @@
+import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
+
 export type formMessage = { msg: string, type: "success" | "warning" } | false;
 
 export function FormContainer(props: { children: any }) {
@@ -20,7 +22,7 @@ export function MakeForm(fields: { name: string, prop: string }[], getter: any, 
                 {
                     fields.map((field) => {
                         return (
-                            <div className="m-2 form-group">
+                            <div className="m-2 form-group" key={field.name}>
                                 <label htmlFor={field.name}>{field.name}</label>
                                 <input type={field.prop === "password" ? "password" : "text"} className="form-control" id={field.name} placeholder={field.name} value={getter[field.prop]} onChange={(e) => { setter({ ...getter, [field.prop]: e.target.value }) }} />
                             </div>

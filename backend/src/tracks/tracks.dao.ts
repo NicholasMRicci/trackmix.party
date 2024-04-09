@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-const trackSchema = new mongoose.Schema({
+export const trackSchema = new mongoose.Schema({
     user_id: {
         type: Schema.Types.ObjectId, ref: 'User',
         required: true

@@ -6,6 +6,7 @@ import { deletePost } from "./reducer";
 import { sendDeletePost } from "../Client/client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function PostCard(props: { post: Post }) {
     const profile = useSelector((state: RootState) => state.profileReducer.profile);
@@ -20,6 +21,7 @@ function PostCard(props: { post: Post }) {
                 <div className="d-flex justify-content-between">
                     <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {props.post.user.username}</h4>
                     <div className="">
+                        <Link to={`/Post/${props.post._id}`} className="btn btn-primary me-1">View</Link>
                         {profile._id
                             && profile._id === props.post.user._id
                             && <button onClick={handleDelete} className="btn btn-danger">Delete</button>}

@@ -33,7 +33,12 @@ export async function getPosts() {
     return response.data;
 }
 
-export async function createPost(data: { title: string, description: string }) {
+export async function getPost(id: string) {
+    const response = await client.get("/posts/" + id);
+    return response.data;
+}
+
+export async function createPost(data: { title: string, description: string, startingTrack: string }) {
     return (await client.post("/posts", data)).data;
 }
 

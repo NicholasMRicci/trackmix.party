@@ -7,6 +7,7 @@ export interface Post {
     description: string;
     date: string;
     user: User;
+    startingTrack: { file: string };
 }
 
 const initialState: { posts: Post[] } = {

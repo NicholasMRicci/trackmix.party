@@ -10,7 +10,7 @@ function CreatePost() {
     const [message, setMessage] = useState('');
     const handleSubmit = (event: MouseEvent<any>) => {
         event.preventDefault();
-        createPost({ title, description }).
+        createPost({ title, description, startingTrack: track }).
             then((data) => {
                 setDescription('');
                 setTitle('');
@@ -26,6 +26,9 @@ function CreatePost() {
     useEffect(() => {
         getMyTracks().then((data) => {
             setAvailableTracks(data);
+            if (data.length > 0) {
+                setTrack(data[0]._id);
+            }
         }).catch((err) => {
             alert(err.response.data);
         })
