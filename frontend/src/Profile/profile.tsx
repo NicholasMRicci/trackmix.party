@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import store, { RootState } from "../store";
-import { getMyTracks, sendLogout } from "../Client/client";
+import { deleteTrack, getMyTracks, sendLogout } from "../Client/client";
 import { useNavigate } from "react-router";
 import { setProfile } from "./reducer";
 import { useEffect, useState } from "react";
@@ -15,7 +15,19 @@ function Profile() {
         })
     };
     const [tracks, setTracks] = useState<any[]>([]);
+    const handleDelete = (trackId: string) => {
+        deleteTrack(trackId).then(() => {
+            const newTracks = tracks.filter((track) => {
+                return track._id !== trackId
+            })
+            setTracks(newTracks)
+        }
+        )
+    }
     useEffect(() => {
+        if (!profile.username) {
+            navigate('/home')
+        }
         getMyTracks().then((tracks) => {
             setTracks(tracks);
         });
@@ -29,15 +41,15 @@ function Profile() {
             <h2>Your Tracks</h2>
             {tracks.map((track) => {
                 return (
-                    <div key={track._id}>
-                        <h3>{track.title}</h3>
-                        <audio controls>
-                            <source src={process.env.REACT_APP_AUDIO_URL + "/" + track.file} />
+                    <div className="row my-5" key={track._id}>
+                        <h3 className="col-4">{track.title}</h3>
+                        <audio controls className="col-6">
+                            <source src={process.env.REACT_APP_AUDIO_URL + "/" + track.file} type={track.mime_type} />
                         </audio>
+                        <button className="btn btn-danger col-2" onClick={() => { handleDelete(track._id) }}>Delete</button>
                     </div>
                 )
             })}
-
         </div>
     );
 }

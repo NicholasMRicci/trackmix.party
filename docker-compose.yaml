@@ -1,6 +1,8 @@
 services:
     backend:
         container_name: trackmix-backend
+        profiles:
+            - prod
         build: ./backend
         env_file:
             - path: .env
@@ -27,6 +29,8 @@ services:
     caddy:
         container_name: trackmix-caddy
         build: ./caddy
+        profiles:
+            - prod
         env_file:
             - path: .env
               required: true
@@ -47,6 +51,8 @@ services:
         container_name: trackmix-database
         image: mongo:latest
         restart: unless-stopped
+        profiles:
+            - prod
         ports:
             - 27017:27017
         volumes:
@@ -54,6 +60,76 @@ services:
         env_file:
             - path: .env
               required: true
+
+    backend-dev:
+        container_name: trackmix-backend-dev
+        build:
+            context: ./backend
+            dockerfile: Dockerfile.dev
+        profiles:
+            - dev
+        env_file:
+            - path: .env.dev
+              required: true
+        volumes:
+            - ./backend:/app
+            - ./audio/:/audio
+        depends_on:
+            - database-dev
+        restart: unless-stopped
+
+    frontend-dev:
+        container_name: trackmix-frontend-dev
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.dev
+        profiles:
+            - dev
+        env_file:
+            - path: .env.dev
+              required: true
+        volumes:
+            - ./frontend:/app
+            # - ./frontend/build:/app/build
+        restart: "unless-stopped"
+
+    caddy-dev:
+        container_name: trackmix-caddy-dev
+        build:
+            context: ./caddy
+            dockerfile: Dockerfile.dev
+        profiles:
+            - dev
+        env_file:
+            - path: .env.dev
+              required: true
+        ports:
+            - 8080:80
+            - 8443:443
+        volumes:
+            - caddy_data:/data
+            - caddy_config:/config
+            - ./audio/:/audio
+        # - ./frontend/build:/static
+        depends_on:
+            - backend-dev
+        # - frontend
+        restart: unless-stopped
+
+    database-dev:
+        container_name: trackmix-database-dev
+        image: mongo:latest
+        profiles:
+            - dev
+        ports:
+            - 27017:27017
+        volumes:
+            - ./database:/data/db
+        env_file:
+            - path: .env.dev
+              required: true
+        restart: unless-stopped
+
 volumes:
     caddy_data:
         external: true

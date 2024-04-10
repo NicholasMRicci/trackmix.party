@@ -84,6 +84,10 @@ export async function uploadTrack(data: FormData) {
     });
 }
 
+export async function deleteTrack(trackId: string) {
+    return await client.delete("/tracks/" + trackId)
+}
+
 export async function sendLogout() {
     return await client.post("/logout");
 }

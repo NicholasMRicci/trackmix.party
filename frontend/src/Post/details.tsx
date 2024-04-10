@@ -7,6 +7,7 @@ import { Post } from "./reducer";
 export function PostDetails() {
     let { id } = useParams();
     const [post, setPost] = useState<Post | false>(false)
+    const [audioGone, setAudioGone] = useState(false);
     useEffect(() => {
         getPost(id!).then((data) => {
             setPost(data);
@@ -20,9 +21,12 @@ export function PostDetails() {
         <div>
             <h1>{post.title}</h1>
             <p>{post.description}</p>
-            <audio controls>
-                <source src={process.env.REACT_APP_AUDIO_URL + "/" + post.startingTrack.file} type="audio/mp4" />
-            </audio>
+            {audioGone ?
+                <div className="alert alert-warning">Audio Deleted</div> :
+                <audio controls>
+                    <source src={process.env.REACT_APP_AUDIO_URL + "/" + post.startingTrack.file} type={post.startingTrack.mime_type} onError={() => { setAudioGone(true) }} />
+                </audio>
+            }
         </div>
     )
 }

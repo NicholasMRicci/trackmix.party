@@ -14,7 +14,7 @@ function PostList() {
         <div>
             <h1>Post List</h1>
             <div className="row justify-content-center">
-                <ul className="list-group list-group-flush col-6">
+                <ul className="list-group list-group-flush col-11 col-sm-9 col-md-6">
                     {posts.toSorted((post1: Post, post2: Post) => {
                         return post2.date.localeCompare(post1.date);
                     }).map((post: Post) => {

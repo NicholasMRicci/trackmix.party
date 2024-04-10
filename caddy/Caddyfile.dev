@@ -11,11 +11,11 @@
 }
 
 dev.trackmix.party {
-	reverse_proxy frontend:8443
+	reverse_proxy frontend-dev:8443
 }
 
 api.dev.trackmix.party {
-	reverse_proxy backend:8443
+	reverse_proxy backend-dev:8443
 }
 
 audio.dev.trackmix.party {

@@ -25,17 +25,19 @@ function App() {
       <div className="App">
         <HashRouter>
           <Navbar />
-          <div style={{ minHeight: "88vh" }}>
-            <Routes>
-              <Route path="/" element={<Navigate to="Home" />} />
-              <Route path="Home" element={<Home />} />
-              <Route path="Login" element={<Login />} />
-              <Route path="Signup" element={<Signup />} />
-              <Route path="Profile" element={<Profile />} />
-              <Route path="Post" element={<CreatePost />} />
-              <Route path="Upload" element={<UploadTrack />} />
-              <Route path="Post/:id" element={<PostDetails />} />
-            </Routes></div>
+          <div className="container d-flex justify-content-center" style={{ minHeight: "88vh" }}>
+            <div className="col-11 col-sm-9 col-md-6 ">
+              <Routes>
+                <Route path="/" element={<Navigate to="Home" />} />
+                <Route path="Home" element={<Home />} />
+                <Route path="Login" element={<Login />} />
+                <Route path="Signup" element={<Signup />} />
+                <Route path="Profile" element={<Profile />} />
+                <Route path="Post" element={<CreatePost />} />
+                <Route path="Upload" element={<UploadTrack />} />
+                <Route path="Post/:id" element={<PostDetails />} />
+              </Routes></div>
+          </div>
           <Footer />
         </HashRouter>
       </div>

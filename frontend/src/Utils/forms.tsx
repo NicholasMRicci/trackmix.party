@@ -6,7 +6,7 @@ export function FormContainer(props: { children: any }) {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <form className="col-11 col-sm-8 col-md-6">
+                <form className="col-11 col-sm-9 col-md-6">
                     {props.children}
                 </form>
             </div>
@@ -32,7 +32,7 @@ export function MakeForm(fields: { name: string, prop: string }[], getter: any, 
                 <button onClick={submitHander} type="submit" className="btn btn-primary m-2">Submit</button>
 
                 <div className="row justify-content-center">
-                    {message && <div className={"alert" + (message.type === "success" ? "alert-success" : "alert-danger")}>{message.msg}</div>}
+                    {message && <div className={"alert " + (message.type === "success" ? "alert-success" : "alert-danger")}>{message.msg}</div>}
                 </div>
             </FormContainer>
         </>

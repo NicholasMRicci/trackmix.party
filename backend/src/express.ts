@@ -6,6 +6,8 @@ import { registerAuthRoutes, requireAuth } from "./users/auth";
 import registerTrackRoutes from "./tracks/tracks";
 import cors from "cors";
 import registerPostRoutes from "./posts/posts";
+import SpotifyWebApi from "spotify-web-api-node";
+import { registerSpotifyRoutes } from "./spotify/songs";
 
 async function startServer() {
     const app: Express = express();
@@ -16,6 +18,11 @@ async function startServer() {
     if (!cookie_secret) {
         throw new Error('COOKIE_SECRET is not set');
     }
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: process.env.SPOTIFY_CLIENT_ID,
+        clientSecret: process.env.SPOTIFY_CLIENT_SECRET
+    });
 
     app.use(session({
         proxy: true,
@@ -41,12 +48,11 @@ async function startServer() {
 
     app.disable("x-powered-by");
 
-    await mongoose.connect(process.env.MONGODB_URI!);
-
     registerUserRoutes(app);
     registerAuthRoutes(app);
     registerTrackRoutes(app);
     registerPostRoutes(app);
+    registerSpotifyRoutes(app, spotifyApi)
 
     app.listen(port);
 }

@@ -12,6 +12,10 @@ export const trackSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    mime_type: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now

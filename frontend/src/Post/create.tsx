@@ -55,7 +55,7 @@ function CreatePost() {
                 </div>
                 <button onClick={handleSubmit} className="btn btn-primary m-2" type="submit">Create</button>
                 <div className="row justify-content-center">
-                    {message && <div className="alert alert-info col-11 col-sm-8 col-md-6">{message}</div>}
+                    {message && <div className="alert alert-info col-11 col-sm-9 col-md-6">{message}</div>}
                 </div>
             </FormContainer>
         </div>
