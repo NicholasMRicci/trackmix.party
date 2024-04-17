@@ -17,7 +17,7 @@ services:
         container_name: trackmix-frontend-builder
         build: ./frontend
         profiles:
-            - building
+            - build
         env_file:
             - path: .env
               required: true

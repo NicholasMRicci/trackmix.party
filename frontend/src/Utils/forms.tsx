@@ -12,7 +12,6 @@ export function FormContainer(props: { children: any }) {
             </div>
         </div>
     )
-
 }
 
 export function MakeForm(fields: { name: string, prop: string }[], getter: any, setter: any, submitHander: (event: any) => void, message: formMessage) {
