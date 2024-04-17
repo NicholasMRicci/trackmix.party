@@ -6,10 +6,11 @@ export type User = {
     password: string;
     firstName: string;
     lastName: string;
+    songLikes: Array<String>;
 };
 
-const initialState: { profile: any } = {
-    profile: {},
+const initialState: { profile: String | false } = {
+    profile: false,
 };
 const profileSlice = createSlice({
     name: "profile",

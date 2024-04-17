@@ -6,13 +6,14 @@ const exceptions = [
     { path: '/login', method: 'POST', exact: true },
     { path: '/users', method: 'POST', exact: true },
     { path: '/posts', method: 'GET', exact: false },
+    { path: '/search', method: 'GET', exact: false }
 ];
 
 async function handleLogin(req: Request, res: Response) {
     // Check if already logged in
     if (req.session.profile) {
         req.session.touch();
-        res.status(200).json(req.session.profile);
+        res.status(200).send(req.session.profile);
         return;
     }
 
@@ -30,9 +31,9 @@ async function handleLogin(req: Request, res: Response) {
     const authorized = await bcrypt.compare(body['password'], user.password);
     if (authorized) {
         user.password = "";
-        req.session.profile = user;
+        req.session.profile = user._id;
         req.session.save();
-        res.status(200).json(req.session.profile);
+        res.status(200).send(req.session.profile);
     } else {
         res.status(401).send('Unauthorized');
         return;
@@ -52,9 +53,10 @@ function handleLogout(req: Request, res: Response) {
 
 }
 
-function whoAmI(req: Request, res: Response) {
+async function whoAmI(req: Request, res: Response) {
     if (req.session.profile) {
-        res.json(req.session.profile);
+        const user = await userModel.findOne({ _id: req.session.profile }).populate('songLikes')
+        res.json(user);
     } else {
         res.status(401).send('Unauthorized');
     }

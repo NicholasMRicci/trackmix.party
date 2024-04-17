@@ -51,11 +51,12 @@ export async function whoAmI() {
     try {
         const response = await client.get("/whoami");
         user = response.data;
-        store.dispatch(setProfile(user));
+        store.dispatch(setProfile(user._id));
         return user;
     }
     catch (err) {
-        return null;
+        store.dispatch(setProfile(false));
+        return false;
     }
 }
 
@@ -90,4 +91,15 @@ export async function deleteTrack(trackId: string) {
 
 export async function sendLogout() {
     return await client.post("/logout");
+}
+
+export async function searchTracks(data: { title: string, artist: string }) {
+    const params = new URLSearchParams();
+    params.append('title', data.title);
+    params.append('artist', data.artist);
+    return (await client.get("/search", { params })).data
+}
+
+export async function likeSong(trackId: String) {
+    return await client.post("/songs/" + trackId)
 }

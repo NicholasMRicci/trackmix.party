@@ -21,7 +21,7 @@ function getPost(req: Request, res: Response) {
 
 async function createPost(req: Request, res: Response) {
     const body = req.body;
-    const user_id = req.session.profile?._id;
+    const user_id = req.session.profile;
     try {
         body.user = await userModel.findOne({ _id: user_id });
         body.startingTrack = await trackModel.findOne({ _id: body.startingTrack });
@@ -49,7 +49,7 @@ function deletePost(req: Request, res: Response) {
         then((post: any) => {
             if (post === null) {
                 res.sendStatus(404);
-            } else if (post.user._id.toString() !== req.session.profile?._id) {
+            } else if (post.user._id.toString() !== req.session.profile) {
                 res.sendStatus(403);
             } else {
                 postModel.deleteOne({ _id: req.params.id }).then(() => {

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 
 export function Signup() {
-    const [data, setData] = useState({ username: "", password: "", firstName: "", lastName: "" });
+    const [data, setData] = useState({ username: "", password: "", firstName: "", lastName: "", signupKey: "" });
     const [message, setMessage] = useState<formMessage>(false);
     const navigate = useNavigate();
     const handleSignup = (event: any) => {

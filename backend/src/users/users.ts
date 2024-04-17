@@ -2,21 +2,21 @@ import { Request, Response, Express } from 'express';
 import { userModel } from "./users.dao";
 import bcrypt from "bcrypt";
 
-async function getUser(req: Request, res: Response) {
-    const params = req.params;
-    if (!params['username']) {
-        res.status(400).send('Bad Request: username is required');
-        return;
-    }
+// async function getUser(req: Request, res: Response) {
+//     const params = req.params;
+//     if (!params['username']) {
+//         res.status(400).send('Bad Request: username is required');
+//         return;
+//     }
 
-    userModel.findOne({ username: params['username'] }).then((user) => {
-        user ? res.json(user) : res.status(404).send('User not found');
-    }, (err) => {
-        res.status(500).send();
-        console.log(`getUser ${err}`);
-    });
-    return;
-}
+//     userModel.findOne({ username: params['username'] }).then((user) => {
+//         user ? res.json(user) : res.status(404).send('User not found');
+//     }, (err) => {
+//         res.status(500).send();
+//         console.log(`getUser ${err}`);
+//     });
+//     return;
+// }
 
 async function createUser(req: Request, res: Response) {
     const body = req.body;
@@ -48,6 +48,6 @@ async function createUser(req: Request, res: Response) {
 }
 
 export default function registerUserRoutes(app: Express) {
-    app.get('/users/:username', getUser);
+    // app.get('/users/:username', getUser);
     app.post('/users', createUser);
 }

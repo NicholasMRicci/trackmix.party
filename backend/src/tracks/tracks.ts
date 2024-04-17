@@ -39,7 +39,7 @@ function createTrack(req: Request, res: Response) {
             return;
         }
         const track = new trackModel({
-            user_id: req.session.profile?._id!,
+            user_id: req.session.profile,
             title: title,
             description: description,
             file: fileID,
@@ -60,11 +60,11 @@ function createTrack(req: Request, res: Response) {
 }
 
 function getMyTracks(req: Request, res: Response) {
-    if (req.session.profile?._id === undefined) {
+    if (req.session.profile === undefined) {
         res.status(400).send();
         return;
     }
-    trackModel.find({ user_id: req.session.profile._id }).then((tracks) => {
+    trackModel.find({ user_id: req.session.profile }).then((tracks) => {
         res.json(tracks);
     });
 }

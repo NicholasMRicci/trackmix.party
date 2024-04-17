@@ -16,7 +16,7 @@ function Navbar() {
                         <li className="nav-item">
                             <a className="nav-link" aria-current="page" href="#">Home</a>
                         </li>
-                        {profile._id &&
+                        {profile &&
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="Profile">Profile</Link>
@@ -29,7 +29,7 @@ function Navbar() {
                                 </li>
                             </>
                         }
-                        {!profile._id &&
+                        {!profile &&
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="Login">Log In</Link>
@@ -40,6 +40,9 @@ function Navbar() {
                             </>
 
                         }
+                        <li className="nav-item">
+                            <Link className="nav-link" to="Search">Search</Link>
+                        </li>
                     </ul>
                     {/* <form className="d-flex">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

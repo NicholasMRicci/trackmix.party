@@ -22,8 +22,8 @@ function PostCard(props: { post: Post }) {
                     <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {props.post.user.username}</h4>
                     <div className="">
                         <Link to={`/Post/${props.post._id}`} className="btn btn-primary me-1">View</Link>
-                        {profile._id
-                            && profile._id === props.post.user._id
+                        {profile
+                            && profile === props.post.user._id
                             && <button onClick={handleDelete} className="btn btn-danger">Delete</button>}
                     </div>
                 </div>

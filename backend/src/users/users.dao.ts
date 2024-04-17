@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 export const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -11,7 +11,11 @@ export const userSchema = new mongoose.Schema({
         required: true
     },
     firstName: String,
-    lastName: String
+    lastName: String,
+    songLikes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Song'
+    }]
 }, { collection: 'user' });
 
 export const userModel = mongoose.model("User", userSchema);

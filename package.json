@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "sudo docker compose up --build -d"
+    "dev": "sudo docker compose --profile dev"
   },
   "author": "",
   "license": "ISC"

@@ -6,7 +6,7 @@ export function FormContainer(props: { children: any }) {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <form className="col-11 col-sm-9 col-md-6">
+                <form className="">
                     {props.children}
                 </form>
             </div>
@@ -23,7 +23,7 @@ export function MakeForm(fields: { name: string, prop: string }[], getter: any, 
                     fields.map((field) => {
                         return (
                             <div className="m-2 form-group" key={field.name}>
-                                <label htmlFor={field.name}>{field.name}</label>
+                                <label className="m-1" htmlFor={field.name}>{field.name}</label>
                                 <input type={field.prop === "password" ? "password" : "text"} className="form-control" id={field.name} placeholder={field.name} value={getter[field.prop]} onChange={(e) => { setter({ ...getter, [field.prop]: e.target.value }) }} />
                             </div>
                         )
