@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { whoAmI } from "../Client/client";
 
 export type User = {
     _id: string;
@@ -6,20 +7,22 @@ export type User = {
     password: string;
     firstName: string;
     lastName: string;
-    songLikes: Array<String>;
+    songLikes: Array<any>;
+    posts: Array<any>;
+    role: "admin" | "user";
 };
 
-const initialState: { profile: String | false } = {
-    profile: false,
+const initialState: { user: User | false } = {
+    user: false
 };
 const profileSlice = createSlice({
     name: "profile",
     initialState,
     reducers: {
-        setProfile(state, action) {
-            state.profile = action.payload;
-        },
+        setUser(state, action) {
+            state.user = action.payload;
+        }
     },
 });
-export const { setProfile } = profileSlice.actions;
+export const { setUser } = profileSlice.actions;
 export default profileSlice.reducer;

@@ -1,9 +1,7 @@
-import mongoose from "mongoose";
 import { Request, Response, Express, RequestHandler } from "express";
 import fs from 'fs';
 import busboy from "busboy";
 import { trackModel } from "./tracks.dao";
-import { postModel } from "../posts/posts.dao";
 
 function createTrack(req: Request, res: Response) {
     const bb = busboy({ headers: req.headers });

@@ -1,9 +1,14 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import store, { RootState } from "../store";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { whoAmI } from "../Client/client";
+import { setUser } from "../Profile/reducer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
-    const profile = useSelector((state: RootState) => state.profileReducer.profile);
+    const user = useSelector((state: RootState) => state.profileReducer.user);
     return (
         <nav className="navbar navbar-expand-md navbar-light bg-light">
             <div className="container-fluid">
@@ -16,7 +21,7 @@ function Navbar() {
                         <li className="nav-item">
                             <a className="nav-link" aria-current="page" href="#">Home</a>
                         </li>
-                        {profile &&
+                        {user &&
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="Profile">Profile</Link>
@@ -29,7 +34,7 @@ function Navbar() {
                                 </li>
                             </>
                         }
-                        {!profile &&
+                        {!user &&
                             <>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="Login">Log In</Link>
@@ -40,14 +45,16 @@ function Navbar() {
                             </>
 
                         }
+                        {user && user.role === "admin" &&
+                            <li className="nav-item">
+                                <Link className="nav-link" to="UserList">User List</Link>
+                            </li>
+                        }
                         <li className="nav-item">
                             <Link className="nav-link" to="Search">Search</Link>
                         </li>
                     </ul>
-                    {/* <form className="d-flex">
-                        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                        <button className="btn btn-outline-success" type="submit">Search</button>
-                    </form> */}
+                    {user && <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {user.username}</h4>}
                 </div>
             </div>
         </nav>

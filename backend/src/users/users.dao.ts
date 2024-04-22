@@ -15,7 +15,16 @@ export const userSchema = new mongoose.Schema({
     songLikes: [{
         type: Schema.Types.ObjectId,
         ref: 'Song'
-    }]
+    }],
+    posts: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    }],
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    }
 }, { collection: 'user' });
 
 export const userModel = mongoose.model("User", userSchema);

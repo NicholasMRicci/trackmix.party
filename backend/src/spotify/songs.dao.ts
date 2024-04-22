@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 export const songSchema = new mongoose.Schema({
+    spotifyData: {},
     spotifyId: {
         type: String,
         unique: true

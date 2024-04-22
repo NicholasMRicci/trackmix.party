@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
 import store from "../store";
-import { setProfile } from "../Profile/reducer";
+import { setUser } from "../Profile/reducer";
 
 const client = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -20,9 +19,7 @@ client.interceptors.response.use(function (response) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     if (error.response.status === 401) {
-        store.dispatch(setProfile({}));
-    } else {
-        alert(error.response.data)
+        store.dispatch(setUser(false))
     }
 
     return Promise.reject(error);
@@ -38,7 +35,20 @@ export async function getPost(id: string) {
     return response.data;
 }
 
-export async function createPost(data: { title: string, description: string, startingTrack: string }) {
+export async function getUsers() {
+    return (await client.get("/users")).data;
+}
+
+export async function getUser(userId: string) {
+    return (await client.get("/users/" + userId)).data;
+}
+
+// Delete User
+export async function deleteUser(userId: string) {
+    return await client.delete("/users/" + userId);
+}
+
+export async function createPost(data: { title: string, description: string, startingTrack: string, inspiredBy: string }) {
     return (await client.post("/posts", data)).data;
 }
 
@@ -51,11 +61,11 @@ export async function whoAmI() {
     try {
         const response = await client.get("/whoami");
         user = response.data;
-        store.dispatch(setProfile(user._id));
+        store.dispatch(setUser(user));
         return user;
     }
     catch (err) {
-        store.dispatch(setProfile(false));
+        store.dispatch(setUser(false));
         return false;
     }
 }
@@ -63,7 +73,7 @@ export async function whoAmI() {
 export async function sendLogin(username: string, password: string) {
     const response = await client.post("/login", { username, password });
     const user = response.data;
-    store.dispatch(setProfile(user));
+    store.dispatch(setUser(user));
     return user;
 }
 
@@ -75,6 +85,10 @@ export async function sendSignup(data: { username: string, password: string, fir
 
 export async function getMyTracks() {
     return (await client.get("/tracks")).data;
+}
+
+export async function getSong(songId: string) {
+    return (await client.get("/songs/" + songId)).data;
 }
 
 export async function uploadTrack(data: FormData) {
@@ -100,6 +114,6 @@ export async function searchTracks(data: { title: string, artist: string }) {
     return (await client.get("/search", { params })).data
 }
 
-export async function likeSong(trackId: String) {
+export async function likeSong(trackId: string) {
     return await client.post("/songs/" + trackId)
 }

@@ -5,8 +5,10 @@ import bcrypt from "bcrypt";
 const exceptions = [
     { path: '/login', method: 'POST', exact: true },
     { path: '/users', method: 'POST', exact: true },
+    { path: '/users/', method: 'GET', exact: false },
     { path: '/posts', method: 'GET', exact: false },
-    { path: '/search', method: 'GET', exact: false }
+    { path: '/search', method: 'GET', exact: false },
+    { path: '/songs/', method: 'GET', exact: false },
 ];
 
 async function handleLogin(req: Request, res: Response) {
@@ -33,7 +35,8 @@ async function handleLogin(req: Request, res: Response) {
         user.password = "";
         req.session.profile = user._id;
         req.session.save();
-        res.status(200).send(req.session.profile);
+        const respUser = await userModel.findById(req.session.profile).populate('songLikes posts');
+        res.status(200).json(respUser);
     } else {
         res.status(401).send('Unauthorized');
         return;
@@ -55,7 +58,7 @@ function handleLogout(req: Request, res: Response) {
 
 async function whoAmI(req: Request, res: Response) {
     if (req.session.profile) {
-        const user = await userModel.findOne({ _id: req.session.profile }).populate('songLikes')
+        const user = await userModel.findOne({ _id: req.session.profile }).populate('songLikes posts')
         res.json(user);
     } else {
         res.status(401).send('Unauthorized');

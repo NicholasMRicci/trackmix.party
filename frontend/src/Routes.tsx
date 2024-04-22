@@ -11,6 +11,9 @@ import { whoAmI } from "./Client/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
+import { UserList } from "./Admin/UserList";
+import { SearchDetails } from "./Search/details";
+import { OtherProfile } from "./Profile/details";
 
 const routes = [
     { path: "/", component: <Navigate to="Home" />, public: true },
@@ -22,35 +25,40 @@ const routes = [
     { path: "/Upload", component: <UploadTrack /> },
     { path: "/Post/:id", component: <PostDetails />, public: true },
     { path: "/Search", component: <SearchPage />, public: true },
+    { path: "/Details/:id", component: <SearchDetails />, public: true },
+    { path: "/UserList", component: <UserList />, public: false },
+    { path: "/Users/:id", component: <OtherProfile />, public: true },
     { path: "*", component: <NotFound />, public: true }
 ]
 
 export function RoutesWithAuth() {
     const location = useLocation();
-    const { hash, pathname, search } = location;
+    const { pathname } = location;
     const navigate = useNavigate()
-    const profile = useSelector((state: RootState) => { return state.profileReducer.profile })
-    const [isInit, setIsInit] = useState(false);
+    const user = useSelector((state: RootState) => { return state.profileReducer.user })
+    const [state, setState] = useState<"loading" | "loaded" | "blocked" | "good">('loading');
+    // const match = useMatches();
     useEffect(() => {
         whoAmI().then(() => {
-            setIsInit(true)
+            setState("loaded")
         }).catch(() => {
-            setIsInit(true)
+            setState("loaded")
         })
     }, []);
     useEffect(() => {
-        console.log(isInit)
-        if (!isInit) {
+        if (state === "loading") {
             return
         }
         const route = routes.find((elem) => {
-            return elem.path === pathname
+            return pathname.startsWith(elem.path)
         })
-        if (!profile && !route?.public && route?.path != "*") {
-            navigate("/")
+        if (!user && !route?.public && route?.path != "*") {
+            console.log(route)
+            setState("blocked")
+            navigate("/Login")
         }
-    }, [pathname, profile])
-
+        setState("good")
+    }, [pathname, user])
     return <Routes>
         {routes.map((route) => {
             return <Route key={route.path} path={route.path} element={route.component} />

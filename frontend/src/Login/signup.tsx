@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { MakeForm, formMessage } from "../Utils/forms";
-import { sendSignup } from "../Client/client";
+import { Form, formMessage } from "../Utils/forms";
+import { sendLogin, sendSignup } from "../Client/client";
 import { useNavigate } from "react-router";
 
 
@@ -12,7 +12,14 @@ export function Signup() {
         setMessage(false);
         event.preventDefault();
         sendSignup(data).then((user) => {
-            navigate('/Login')
+            sendLogin(data.username, data.password).then((user) => {
+                setMessage({ msg: "Signup Successful", type: "success" });
+                setTimeout(() => {
+                    navigate('/Profile');
+                }, 500);
+            }).catch((err) => {
+                setMessage({ msg: err.toString(), type: "warning" });
+            })
         }).catch((err) => {
             setMessage({ msg: err.toString(), type: "warning" });
         })
@@ -20,13 +27,18 @@ export function Signup() {
     return (
         <div>
             <h1>Sign Up</h1>
-            {MakeForm([
+            {<Form fields={[
                 { name: "Username", prop: "username" },
                 { name: "Password", prop: "password" },
                 { name: "First Name", prop: "firstName" },
                 { name: "Last Name", prop: "lastName" },
-                { name: "Signup Key (Class Number)", prop: "signupKey" }],
-                data, setData, handleSignup, message)}
+                { name: "Role", prop: "role", extra: { type: "select", options: [{ value: "user", name: "User" }, { value: "admin", name: "Admin" }] }
+                { name: "Signup Key (Class Number)", prop: "signupKey" }]}
+                getter={data}
+                setter={setData}
+                submitHander={handleSignup}
+                message={message}
+            />}
         </div >
     );
 }

@@ -30,7 +30,11 @@ async function createPost(req: Request, res: Response) {
         res.json(err);
         return;
     }
-    postModel.create(body).then((post: any) => {
+    console.log("here 1")
+    postModel.create(body).then(async (post: any) => {
+        console.log("here 2")
+        await userModel.updateOne({ _id: user_id }, { $push: { posts: post._id } }).exec();
+        console.log("here 3")
         res.json(post);
     }).catch(
         (err) => {
@@ -44,12 +48,13 @@ async function createPost(req: Request, res: Response) {
     );
 }
 
-function deletePost(req: Request, res: Response) {
+async function deletePost(req: Request, res: Response) {
+    const user = await userModel.findById(req.session.profile);
     postModel.findById(req.params.id).
         then((post: any) => {
             if (post === null) {
                 res.sendStatus(404);
-            } else if (post.user._id.toString() !== req.session.profile) {
+            } else if (post.user._id.toString() !== req.session.profile && user?.role !== "admin") {
                 res.sendStatus(403);
             } else {
                 postModel.deleteOne({ _id: req.params.id }).then(() => {

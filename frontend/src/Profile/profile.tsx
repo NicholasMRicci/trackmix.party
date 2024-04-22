@@ -1,17 +1,16 @@
 import { useSelector } from "react-redux";
 import store, { RootState } from "../store";
-import { deleteTrack, getMyTracks, sendLogout, whoAmI } from "../Client/client";
+import { deleteTrack, getMyTracks, sendLogout } from "../Client/client";
 import { useNavigate } from "react-router";
-import { User, setProfile } from "./reducer";
+import { setUser } from "./reducer";
 import { useEffect, useState } from "react";
 
 function Profile() {
-    const profile = useSelector((state: RootState) => state.profileReducer.profile);
-    const [user, setUser] = useState<User>()
+    const user = useSelector((state: RootState) => state.profileReducer.user);
     const navigate = useNavigate();
     const handleLogout = () => {
         sendLogout().then(() => {
-            store.dispatch(setProfile(false));
+            store.dispatch(setUser(false))
             navigate("/home");
         })
     };
@@ -26,25 +25,25 @@ function Profile() {
         )
     }
     useEffect(() => {
-        if (!profile) {
+        console.log(user)
+        if (!user) {
             navigate('/home')
         }
-        whoAmI().then((resp) => {
-            setUser(resp)
-        })
         getMyTracks().then((tracks) => {
             setTracks(tracks);
-        });
-    }, [profile]);
+        }).catch((err) => {
+            navigate('/home')
+        })
+    }, [user]);
     return (
         <div>
             {user &&
                 <>
                     <h1>Welcome {user.firstName} {user.lastName}</h1>
-                    <p>Username: {user.username}</p>
+                    <h4>Username: {user.username}</h4>
                     <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
                     <hr></hr>
-                    <p>You have liked {user.songLikes.length} songs</p>
+                    <h4>You have liked {user.songLikes.length} songs</h4>
                     <hr></hr>
                     <h2>Your Tracks</h2>
                     {tracks.map((track) => {

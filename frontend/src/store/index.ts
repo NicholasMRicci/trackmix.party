@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import profileReducer from "../Profile/reducer";
+import profileReducer, { User } from "../Profile/reducer";
 import postReducer from "../Post/reducer";
 
 export interface RootState {
     profileReducer: {
-        profile: any;
+        user: User;
     };
     postReducer: {
         posts: any[];

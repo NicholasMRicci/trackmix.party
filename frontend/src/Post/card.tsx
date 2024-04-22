@@ -9,7 +9,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 function PostCard(props: { post: Post }) {
-    const profile = useSelector((state: RootState) => state.profileReducer.profile);
+    const user = useSelector((state: RootState) => state.profileReducer.user);
     const handleDelete = () => {
         sendDeletePost(props.post._id).then(() => {
             store.dispatch(deletePost(props.post._id));
@@ -19,17 +19,20 @@ function PostCard(props: { post: Post }) {
         <div className="card">
             <div className="card-body">
                 <div className="d-flex justify-content-between">
-                    <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {props.post.user.username}</h4>
+                    <Link to={"/Users/" + props.post.user._id}>
+                        <button className="btn btn-primary">
+                            <h5><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {props.post.user.username}</h5>
+                        </button>
+                    </Link>
                     <div className="">
                         <Link to={`/Post/${props.post._id}`} className="btn btn-primary me-1">View</Link>
-                        {profile
-                            && profile === props.post.user._id
+                        {user
+                            && (user._id === props.post.user._id || user.role === "admin")
                             && <button onClick={handleDelete} className="btn btn-danger">Delete</button>}
                     </div>
                 </div>
                 <hr></hr>
 
-                {/* <p className="position-absolute top-0 start-0 m-2">{props.post.user_id}</p> */}
                 <h5 className="card-title">{props.post.title}</h5>
                 <p className="card-text">{props.post.description}</p>
 

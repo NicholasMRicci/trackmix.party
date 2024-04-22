@@ -32,9 +32,9 @@ function likeSong(api: SpotifyWebApi): (arg0: Request, arg1: Response) => void {
         try {
             var song = await songModel.findOne({ spotifyId: id })
             var user = await userModel.findOne({ _id: req.session.profile })
+            const spotifySong = (await api.getTrack(id)).body
             if (!song) {
-                console.log(id)
-                song = await songModel.create({ spotifyId: id })
+                song = await songModel.create({ spotifyId: id, spotifyData: spotifySong })
             }
             if (song.likes.findIndex((id) => { return id.toString() === req.session.profile }) !== -1) {
                 res.send("Already Liked")
@@ -44,6 +44,25 @@ function likeSong(api: SpotifyWebApi): (arg0: Request, arg1: Response) => void {
             song.save()
             user?.songLikes.push(song._id)
             user?.save()
+            res.json(song)
+        } catch (err) {
+            console.log(err)
+            res.json(err)
+        }
+    }
+}
+
+function getSong(api: SpotifyWebApi): (arg0: Request, arg1: Response) => void {
+    return async (req: Request, res: Response) => {
+        const id = req.params.id
+        try {
+            const song = await songModel.findOne({ spotifyId: id }).populate('likes')
+            if (!song) {
+                const spotifySong = (await api.getTrack(id)).body
+                const song = await songModel.create({ spotifyId: id, spotifyData: spotifySong })
+                res.json(song)
+                return
+            }
             res.json(song)
         } catch (err) {
             console.log(err)
@@ -75,4 +94,5 @@ export function registerSpotifyRoutes(app: Express) {
 
     app.get('/search', searchSong(spotifyApi))
     app.post('/songs/:id', likeSong(spotifyApi))
+    app.get('/songs/:id', getSong(spotifyApi))
 }

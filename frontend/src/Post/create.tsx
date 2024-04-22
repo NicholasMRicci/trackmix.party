@@ -1,64 +1,63 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { createPost, getMyTracks } from "../Client/client";
-import { useNavigate } from "react-router";
-import { FormContainer } from "../Utils/forms";
+import { Form, formMessage } from "../Utils/forms";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 function CreatePost() {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [track, setTrack] = useState('');
-    const [message, setMessage] = useState('');
+    const user = useSelector((state: RootState) => state.profileReducer.user);
+    const [data, setData] = useState({ title: "", description: "", startingTrack: "", inspiredBy: "" });
+    const [message, setMessage] = useState<formMessage>(false);
     const handleSubmit = (event: MouseEvent<any>) => {
         event.preventDefault();
-        createPost({ title, description, startingTrack: track }).
+        createPost(data).
             then((data) => {
-                setDescription('');
-                setTitle('');
-                setMessage('Post created successfully');
+                setData({ title: "", description: "", startingTrack: "", inspiredBy: "" });
+                setMessage({ msg: 'Post created successfully', type: "success" });
                 setTimeout(() => {
-                    setMessage('');
+                    setMessage(false);
                 }, 5000)
             }).catch((err) => {
-                alert(err.response.data);
+                setMessage({ msg: err.response.data, type: "warning" })
             })
     };
     const [availableTracks, setAvailableTracks] = useState<any[]>([]);
     useEffect(() => {
         getMyTracks().then((data) => {
             setAvailableTracks(data);
-            if (data.length > 0) {
-                setTrack(data[0]._id);
-            }
         }).catch((err) => {
-            alert(err.response.data);
+            setMessage({ msg: err.response.data, type: "warning" })
         })
     }, []);
     return (
         <div className="container">
             <h1>Create Post</h1>
-            <FormContainer>
-                <div>
-                    <label htmlFor="titleInput">Title</label>
-                    <input value={title} onChange={(e) => { setTitle(e.target.value) }} id="titleInput" className="form-control" type="text" required={true} />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="descriptionInput">Description</label>
-                    <textarea className="form-control" id="descriptionInput" rows={3} value={description} onChange={(e) => { setDescription(e.target.value) }} required={true}></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="trackSelect">Track</label>
-                    <select className="form-control" id="trackSelect" onChange={(e) => { setTrack(e.target.value) }} required={true} >
-                        {availableTracks.map((track) => {
-                            return <option key={track._id} value={track._id}>{track.title}</option>
-                        })}
-                    </select>
-                </div>
-                <button onClick={handleSubmit} className="btn btn-primary m-2" type="submit">Create</button>
-                <div className="row justify-content-center">
-                    {message && <div className="alert alert-info">{message}</div>}
-                </div>
-            </FormContainer>
-        </div>
+            <Form fields={[
+                { name: "Title", prop: "title" },
+                { name: "Description", prop: "description" },
+                {
+                    name: "Track", prop: "startingTrack", extra: {
+                        type: "select",
+                        label: "Track",
+                        options: availableTracks ? availableTracks.map((track) => {
+                            return { value: track._id, name: track.title }
+                        }) : []
+                    }
+                },
+                {
+                    name: "Inspired By", prop: "inspiredBy", extra: {
+                        type: "select",
+                        label: "Song",
+                        options: user.songLikes ? user.songLikes.map((like) => { return { value: like._id, name: like.spotifyData.name } }) : []
+                    }
+                },
+            ]}
+                getter={data}
+                setter={setData}
+                submitHander={handleSubmit}
+                message={message}
+            />
+        </div >
     );
 }
 
