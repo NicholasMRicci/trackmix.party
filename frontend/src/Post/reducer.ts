@@ -8,6 +8,7 @@ export interface Post {
     date: string;
     user: User;
     startingTrack: { file: string, mime_type: string, title: string, description: string };
+    inspiredBy: any;
 }
 
 const initialState: { posts: Post[] } = {

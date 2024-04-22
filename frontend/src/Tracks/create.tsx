@@ -34,16 +34,19 @@ export function UploadTrack() {
                 setMessage({ msg: "File upload failed", type: "warning" });
                 setDisabled(false)
                 setTimeout(() => {
-                    setMessage(false);
+                    setMessage(false)
                 }, 2500)
             }
         }
     }
 
     return (
-        <Form fields={[
-            { name: "Title", prop: "title" },
-            { name: "File", prop: "file", extra: { type: "file", mime_type: "audio/*" } }
-        ]} getter={data} setter={setData} submitHander={handleUpload} message={message} disabled={disabled} />
+        <>
+            <h1>Upload Track</h1>
+            <Form fields={[
+                { name: "Title", prop: "title" },
+                { name: "File", prop: "file", extra: { type: "file", mime_type: "audio/*" } }
+            ]} getter={data} setter={setData} submitHander={handleUpload} message={message} disabled={disabled} />
+        </>
     )
 }

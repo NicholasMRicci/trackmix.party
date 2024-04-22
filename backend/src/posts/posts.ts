@@ -3,13 +3,13 @@ import { Request, Response, Express } from "express";
 import { userModel } from "../users/users.dao";
 
 function getPosts(req: Request, res: Response) {
-    postModel.find({}).populate("startingTrack user").then((posts: any) => {
+    postModel.find({}).populate("startingTrack user inspiredBy").then((posts: any) => {
         res.json(posts);
     });
 }
 
 function getPost(req: Request, res: Response) {
-    postModel.findById(req.params.id).populate("startingTrack user").then((post: any) => {
+    postModel.findById(req.params.id).populate("startingTrack user inspiredBy").then((post: any) => {
         if (post === null) {
             res.sendStatus(404);
         } else {
