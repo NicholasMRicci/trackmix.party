@@ -11,7 +11,7 @@ export function PostDetails() {
         getPost(id!).then((data) => {
             setPost(data);
         })
-    }, [])
+    }, [id])
 
     if (post === false) {
         return <></>

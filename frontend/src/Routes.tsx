@@ -51,13 +51,12 @@ export function RoutesWithAuth() {
         const route = routes.find((elem) => {
             return pathname.toLowerCase().startsWith(elem.path)
         })
-        if (!user && !route?.public && route?.path != "*") {
-            console.log(route)
+        if (!user && !route?.public && route?.path !== "*") {
             setState("blocked")
             navigate("/login")
         }
         setState("good")
-    }, [pathname, user])
+    }, [pathname, user, navigate])
     return <Routes>
         {routes.map((route) => {
             return <Route key={route.path} path={route.path} element={route.component} />

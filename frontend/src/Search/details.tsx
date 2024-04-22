@@ -13,7 +13,7 @@ export function SearchDetails() {
     }, [id])
     return song ?
         <div className="card p-1" key={song._id}>
-            <img className="card-img-top p-5" src={song.spotifyData.album.images[0].url}></img>
+            <img className="card-img-top p-5" src={song.spotifyData.album.images[0].url} alt="album cover"></img>
             <div className="card-body">
                 <h4 className="card-title">{song.spotifyData.name}</h4>
                 <h5 className="card-text">By: {song.spotifyData.artists[0].name}</h5>

@@ -37,7 +37,7 @@ function Profile() {
         }).catch((err) => {
             navigate('/home')
         })
-    }, [user]);
+    }, [user, navigate]);
     const [data, setData] = useState({ firstName: user.firstName, lastName: user.lastName });
     const [message, setMessage] = useState<formMessage>(false);
     const handleUpdate = () => {

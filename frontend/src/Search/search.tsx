@@ -64,7 +64,7 @@ export function SearchPage() {
             <div className="row">
                 {tracks && tracks.map((track: any) => {
                     return <div className="card col-4 p-1" key={track.id}>
-                        <img className="card-img-top" src={track.album.images[1].url}></img>
+                        <img className="card-img-top" src={track.album.images[1].url} alt="album cover"></img>
                         <div className="card-body">
                             <h5 className="card-title">{track.name}</h5>
                             <div className="card-text">{track.artists[0].name}</div>

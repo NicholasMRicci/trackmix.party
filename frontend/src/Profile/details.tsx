@@ -11,7 +11,7 @@ export function OtherProfile() {
         getUser(id!).then((user) => {
             setUser(user);
         })
-    }, []);
+    }, [id]);
     return (
         <div>
             {user &&

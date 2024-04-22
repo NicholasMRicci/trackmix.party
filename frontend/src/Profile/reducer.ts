@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { whoAmI } from "../Client/client";
 
 export type User = {
     _id: string;

@@ -10,16 +10,15 @@ function CreatePost() {
     const [message, setMessage] = useState<formMessage>(false);
     const handleSubmit = (event: MouseEvent<any>) => {
         event.preventDefault();
-        createPost(data).
-            then((data) => {
-                setData({ title: "", description: "", startingTrack: "", inspiredBy: "" });
-                setMessage({ msg: 'Post created successfully', type: "success" });
-                setTimeout(() => {
-                    setMessage(false);
-                }, 5000)
-            }).catch((err) => {
-                setMessage({ msg: err.response.data, type: "warning" })
-            })
+        createPost(data).then((data) => {
+            setData({ title: "", description: "", startingTrack: "", inspiredBy: "" });
+            setMessage({ msg: 'Post created successfully', type: "success" });
+            setTimeout(() => {
+                setMessage(false);
+            }, 5000)
+        }).catch((err) => {
+            setMessage({ msg: err.response.data, type: "warning" })
+        })
     };
     const [availableTracks, setAvailableTracks] = useState<any[]>([]);
     useEffect(() => {
