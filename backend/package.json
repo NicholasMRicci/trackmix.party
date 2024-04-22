@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc -p .",
     "start": "tsc -p . && node index.js",
-    "watch": "npm-watch start"
+    "start-prod": "node index.js",
+    "watch": "npm-watch start",
+    "watch-prod": "npm-watch start-prod"
   },
   "author": "Nicholas Ricci",
   "license": "ISC",
