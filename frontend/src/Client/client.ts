@@ -43,6 +43,10 @@ export async function getUser(userId: string) {
     return (await client.get("/users/" + userId)).data;
 }
 
+export async function updateUser(userId: string, data: { firstName: string, lastName: string }) {
+    return (await client.put("/users/" + userId, data)).data;
+}
+
 // Delete User
 export async function deleteUser(userId: string) {
     return await client.delete("/users/" + userId);

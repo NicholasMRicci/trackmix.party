@@ -1,7 +1,7 @@
 import PostCard from "./card";
 import { Post } from "./reducer";
 
-function PostList(props: { posts: Post[] }) {
+function PostList(props: { posts: Post[], showUser: boolean }) {
     return (
         <div>
             <h1>Posts</h1>
@@ -11,7 +11,7 @@ function PostList(props: { posts: Post[] }) {
                         return post2.date.localeCompare(post1.date);
                     }).map((post: Post) => {
                         return (<li className="list-group-item" key={post._id}>
-                            <PostCard post={post} />
+                            <PostCard post={post} showUser={props.showUser} />
                         </li>)
                     })}
                 </ul>

@@ -1,4 +1,3 @@
-import { get } from "http";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getPost } from "../Client/client";

@@ -20,7 +20,7 @@ export function OtherProfile() {
                     <hr></hr>
                     <p>They have liked {user.songLikes?.length || 0} songs</p>
                     <hr></hr>
-                    < PostList posts={user.posts} />
+                    <PostList posts={user.posts} showUser={false} />
                 </>
             }
         </div >

@@ -25,6 +25,9 @@ export function SearchPage() {
             setData(newData)
             searchTracks(newData).then((responseData) => {
                 setTracks(responseData)
+                if (responseData.length === 0) {
+                    setMessage({ msg: "No tracks found", type: "warning" })
+                }
             }).catch((e) => {
                 setMessage({ msg: JSON.stringify(e), type: "warning" })
             })
@@ -65,7 +68,7 @@ export function SearchPage() {
                         <div className="card-body">
                             <h5 className="card-title">{track.name}</h5>
                             <div className="card-text">{track.artists[0].name}</div>
-                            <Link to={"/Details/" + track.id}><button className="btn btn-primary m-1">Details</button></Link>
+                            <Link to={"/details/" + track.id}><button className="btn btn-primary m-1">Details</button></Link>
                             {user
                                 && (user.songLikes.findIndex((like: any) => { return like.spotifyId.toString() === track.id }) !== -1 ?
                                     <button disabled={true} className="btn btn-primary m-1"><FontAwesomeIcon icon={faCheck}></FontAwesomeIcon></button> :
@@ -73,9 +76,6 @@ export function SearchPage() {
                         </div>
                     </div>
                 })}
-                {tracks && tracks.length === 0 &&
-                    <div className="alert alert-warning">No results found</div>
-                }
             </div>
         </>
     )

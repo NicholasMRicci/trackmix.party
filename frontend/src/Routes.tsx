@@ -16,18 +16,18 @@ import { SearchDetails } from "./Search/details";
 import { OtherProfile } from "./Profile/details";
 
 const routes = [
-    { path: "/", component: <Navigate to="Home" />, public: true },
-    { path: "/Home", component: <Home />, public: true },
-    { path: "/Login", component: <Login />, public: true },
-    { path: "/Signup", component: <Signup />, public: true },
-    { path: "/Profile", component: <Profile /> },
-    { path: "/Post", component: <CreatePost /> },
-    { path: "/Upload", component: <UploadTrack /> },
-    { path: "/Post/:id", component: <PostDetails />, public: true },
-    { path: "/Search", component: <SearchPage />, public: true },
-    { path: "/Details/:id", component: <SearchDetails />, public: true },
-    { path: "/UserList", component: <UserList />, public: false },
-    { path: "/Users/:id", component: <OtherProfile />, public: true },
+    { path: "/", component: <Navigate to="home" />, public: true },
+    { path: "/home", component: <Home />, public: true },
+    { path: "/login", component: <Login />, public: true },
+    { path: "/register", component: <Signup />, public: true },
+    { path: "/post", component: <CreatePost /> },
+    { path: "/upload", component: <UploadTrack /> },
+    { path: "/post/:id", component: <PostDetails />, public: true },
+    { path: "/search", component: <SearchPage />, public: true },
+    { path: "/details/:id", component: <SearchDetails />, public: true },
+    { path: "/userList", component: <UserList />, public: false },
+    { path: "/profile/:id", component: <OtherProfile />, public: true },
+    { path: "/profile", component: <Profile /> },
     { path: "*", component: <NotFound />, public: true }
 ]
 
@@ -37,7 +37,6 @@ export function RoutesWithAuth() {
     const navigate = useNavigate()
     const user = useSelector((state: RootState) => { return state.profileReducer.user })
     const [state, setState] = useState<"loading" | "loaded" | "blocked" | "good">('loading');
-    // const match = useMatches();
     useEffect(() => {
         whoAmI().then(() => {
             setState("loaded")
@@ -50,12 +49,12 @@ export function RoutesWithAuth() {
             return
         }
         const route = routes.find((elem) => {
-            return pathname.startsWith(elem.path)
+            return pathname.toLowerCase().startsWith(elem.path)
         })
         if (!user && !route?.public && route?.path != "*") {
             console.log(route)
             setState("blocked")
-            navigate("/Login")
+            navigate("/login")
         }
         setState("good")
     }, [pathname, user])

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-function PostCard(props: { post: Post }) {
+function PostCard(props: { post: Post, showUser: boolean }) {
     const user = useSelector((state: RootState) => state.profileReducer.user);
     const handleDelete = () => {
         sendDeletePost(props.post._id).then(() => {
@@ -19,13 +19,17 @@ function PostCard(props: { post: Post }) {
         <div className="card">
             <div className="card-body">
                 <div className="d-flex justify-content-between">
-                    <Link to={"/Users/" + props.post.user._id}>
-                        <button className="btn btn-primary">
-                            <h5><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {props.post.user.username}</h5>
-                        </button>
-                    </Link>
-                    <div className="">
-                        <Link to={`/Post/${props.post._id}`} className="btn btn-primary me-1">View</Link>
+                    <div>
+                        {
+                            props.showUser && <Link to={"/profile/" + props.post.user._id}>
+                                <button className="btn btn-primary">
+                                    <h5><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {props.post.user.username}</h5>
+                                </button>
+                            </Link>
+                        }
+                    </div>
+                    <div>
+                        <Link to={`/post/${props.post._id}`} className="btn btn-primary me-1">View</Link>
                         {user
                             && (user._id === props.post.user._id || user.role === "admin")
                             && <button onClick={handleDelete} className="btn btn-danger">Delete</button>}

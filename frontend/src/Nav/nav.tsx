@@ -1,9 +1,6 @@
 import { useSelector } from "react-redux";
-import store, { RootState } from "../store";
+import { RootState } from "../store";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { whoAmI } from "../Client/client";
-import { setUser } from "../Profile/reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -24,34 +21,34 @@ function Navbar() {
                         {user &&
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="Profile">Profile</Link>
+                                    <Link className="nav-link" to="profile">Profile</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="Post">Post</Link>
+                                    <Link className="nav-link" to="post">Post</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="Upload">Upload Track</Link>
+                                    <Link className="nav-link" to="upload">Upload Track</Link>
                                 </li>
                             </>
                         }
                         {!user &&
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="Login">Log In</Link>
+                                    <Link className="nav-link" to="login">Log In</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="Signup">Sign up</Link>
+                                    <Link className="nav-link" to="register">Sign up</Link>
                                 </li>
                             </>
 
                         }
                         {user && user.role === "admin" &&
                             <li className="nav-item">
-                                <Link className="nav-link" to="UserList">User List</Link>
+                                <Link className="nav-link" to="userList">User List</Link>
                             </li>
                         }
                         <li className="nav-item">
-                            <Link className="nav-link" to="Search">Search</Link>
+                            <Link className="nav-link" to="search">Search</Link>
                         </li>
                     </ul>
                     {user && <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {user.username}</h4>}

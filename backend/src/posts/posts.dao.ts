@@ -1,6 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import { userSchema } from "../users/users.dao";
-import { trackSchema } from "../tracks/tracks.dao";
 const postSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
@@ -16,12 +14,14 @@ const postSchema = new mongoose.Schema({
         required: true
     },
     startingTrack: {
-        type: trackSchema,
+        type: Schema.Types.ObjectId,
+        ref: "Track",
         required: true
     },
     inspiredBy: {
         type: Schema.Types.ObjectId,
-        ref: "Song"
+        ref: "Song",
+        required: false
     },
     date: {
         type: Date,

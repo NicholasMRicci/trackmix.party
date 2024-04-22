@@ -22,8 +22,8 @@ services:
             - path: .env
               required: true
         volumes:
-            # - ./frontend:/app
-            - ./frontend/build:/app/build
+            - ./frontend:/app
+            # - ./frontend/build:/app/build
         restart: "no"
 
     caddy:

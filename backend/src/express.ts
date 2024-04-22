@@ -1,8 +1,8 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import express, { Express } from "express";
 import session from "express-session";
 import mongoose from "mongoose";
 import registerUserRoutes from "./users/users";
-import { registerAuthRoutes, requireAuth } from "./users/auth";
+import { requireAuth } from "./users/auth";
 import registerTrackRoutes from "./tracks/tracks";
 import cors from "cors";
 import registerPostRoutes from "./posts/posts";
@@ -45,7 +45,6 @@ async function startServer() {
     app.disable("x-powered-by");
 
     registerUserRoutes(app);
-    registerAuthRoutes(app);
     registerTrackRoutes(app);
     registerPostRoutes(app);
     registerSpotifyRoutes(app)

@@ -15,7 +15,7 @@ function Login() {
         sendLogin(data.username, data.password).then((user) => {
             setMessage({ msg: "Login Successful", type: "success" });
             setTimeout(() => {
-                navigate('/Profile');
+                navigate('/profile');
             }, 500);
         }).catch((err) => {
             setMessage({ msg: "Login Failed", type: "warning" });

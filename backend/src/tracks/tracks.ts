@@ -1,4 +1,4 @@
-import { Request, Response, Express, RequestHandler } from "express";
+import { Request, Response, Express } from "express";
 import fs from 'fs';
 import busboy from "busboy";
 import { trackModel } from "./tracks.dao";
@@ -8,9 +8,11 @@ function createTrack(req: Request, res: Response) {
     var title: string | undefined = undefined;
     var description: string | undefined = undefined;
     var mime_type: string | undefined = undefined;
+    var hasFile = false;
     const fileID = crypto.randomUUID();
     bb.on('file', (name, file, info) => {
         const saveTo = "/audio/" + fileID;
+        hasFile = true;
         file.pipe(fs.createWriteStream(saveTo));
     });
     bb.on('field', (fieldname, val) => {
@@ -29,10 +31,10 @@ function createTrack(req: Request, res: Response) {
         }
     });
     bb.on('close', () => {
-        if (title === undefined || mime_type === undefined) {
+        if (title === undefined || mime_type === undefined || !hasFile) {
             res.status(400).send("Missing Params");
             fs.unlink("/audio/" + fileID, (err) => {
-                console.log(err);
+                console.log("have to delete file" + err);
             });
             return;
         }

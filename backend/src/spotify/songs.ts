@@ -1,5 +1,5 @@
 import SpotifyWebApi from "spotify-web-api-node"
-import { Express, Request, Response, urlencoded } from "express"
+import { Express, Request, Response } from "express"
 import { songModel } from "./songs.dao";
 import { userModel } from "../users/users.dao";
 
@@ -56,12 +56,17 @@ function getSong(api: SpotifyWebApi): (arg0: Request, arg1: Response) => void {
     return async (req: Request, res: Response) => {
         const id = req.params.id
         try {
-            const song = await songModel.findOne({ spotifyId: id }).populate('likes')
+            var song = await songModel.findOne({ spotifyId: id }).populate('likes')
+            console.log(song)
             if (!song) {
                 const spotifySong = (await api.getTrack(id)).body
-                const song = await songModel.create({ spotifyId: id, spotifyData: spotifySong })
-                res.json(song)
-                return
+                song = await songModel.create({ spotifyId: id, spotifyData: spotifySong }).catch((err) => {
+                    if (err.code === 11000) {
+                        return songModel.findOne({ spotifyId: id }).populate('likes')
+                    } else {
+                        throw err
+                    }
+                })
             }
             res.json(song)
         } catch (err) {

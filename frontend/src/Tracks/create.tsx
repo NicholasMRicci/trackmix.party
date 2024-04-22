@@ -7,12 +7,6 @@ export function UploadTrack() {
     const [message, setMessage] = useState<formMessage>(false);
     const [disabled, setDisabled] = useState(false);
 
-    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.files) {
-    //         setFile(e.target.files[0]);
-    //     }
-    // };
-
     const handleUpload = () => {
         if (data.file) {
             const formData = new FormData();
@@ -21,19 +15,27 @@ export function UploadTrack() {
             formData.append("mime_type", data.file.type);
 
             try {
-                // You can write the URL of your server or any other endpoint used for file upload
                 setDisabled(true)
                 uploadTrack(formData).then(() => {
                     setMessage({ msg: "File uploaded successfully", type: "success" });
                     setTimeout(() => {
                         setMessage(false);
-                    }, 1000)
+                    }, 2500)
                     setData({ ...data, title: "" })
                     setDisabled(false)
-                })
+                }).catch((err) => {
+                    setMessage({ msg: "File Upload failed", type: "warning" });
+                    setDisabled(false)
+                    setTimeout(() => {
+                        setMessage(false);
+                    }, 2500)
+                });
             } catch (error) {
-                console.error(error);
+                setMessage({ msg: "File upload failed", type: "warning" });
                 setDisabled(false)
+                setTimeout(() => {
+                    setMessage(false);
+                }, 2500)
             }
         }
     }

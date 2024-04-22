@@ -27,4 +27,18 @@ export const userSchema = new mongoose.Schema({
     }
 }, { collection: 'user' });
 
+export const adminSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        index: true,
+        unique: true,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+}, { collection: 'admin' });
+
 export const userModel = mongoose.model("User", userSchema);
+export const adminModel = mongoose.model("Admin", adminSchema);

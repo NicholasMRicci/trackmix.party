@@ -1,16 +1,15 @@
 import { postModel } from "./posts.dao";
 import { Request, Response, Express } from "express";
 import { userModel } from "../users/users.dao";
-import { trackModel } from "../tracks/tracks.dao";
 
 function getPosts(req: Request, res: Response) {
-    postModel.find({}).then((posts: any) => {
+    postModel.find({}).populate("startingTrack user").then((posts: any) => {
         res.json(posts);
     });
 }
 
 function getPost(req: Request, res: Response) {
-    postModel.findById(req.params.id).populate("startingTrack").then((post: any) => {
+    postModel.findById(req.params.id).populate("startingTrack user").then((post: any) => {
         if (post === null) {
             res.sendStatus(404);
         } else {
@@ -22,19 +21,16 @@ function getPost(req: Request, res: Response) {
 async function createPost(req: Request, res: Response) {
     const body = req.body;
     const user_id = req.session.profile;
-    try {
-        body.user = await userModel.findOne({ _id: user_id });
-        body.startingTrack = await trackModel.findOne({ _id: body.startingTrack });
-    } catch (err) {
-        console.log(err);
-        res.json(err);
+    body.user = user_id;
+    if (body.inspiredBy === "") {
+        delete body.inspiredBy;
+    }
+    if (!body.startingTrack || !body.description || !body.title) {
+        res.status(400).send("Missing Required fields");
         return;
     }
-    console.log("here 1")
     postModel.create(body).then(async (post: any) => {
-        console.log("here 2")
         await userModel.updateOne({ _id: user_id }, { $push: { posts: post._id } }).exec();
-        console.log("here 3")
         res.json(post);
     }).catch(
         (err) => {
