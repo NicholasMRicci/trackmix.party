@@ -12,6 +12,7 @@
 
 trackmix.party {
 	root * /static
+	try_files {path} /index.html
 	file_server
 }
 
