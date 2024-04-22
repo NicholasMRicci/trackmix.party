@@ -16,39 +16,39 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-md-0">
                         <li className="nav-item">
-                            <a className="nav-link" aria-current="page" href="#">Home</a>
+                            <a className="nav-link" aria-current="page" href="/">Home</a>
                         </li>
                         {user &&
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="profile">Profile</Link>
+                                    <Link className="nav-link" to="/profile">Profile</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="post">Post</Link>
+                                    <Link className="nav-link" to="/post">Post</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="upload">Upload Track</Link>
+                                    <Link className="nav-link" to="/upload">Upload Track</Link>
                                 </li>
                             </>
                         }
                         {!user &&
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="login">Log In</Link>
+                                    <Link className="nav-link" to="/login">Log In</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="register">Sign up</Link>
+                                    <Link className="nav-link" to="/register">Sign up</Link>
                                 </li>
                             </>
 
                         }
                         {user && user.role === "admin" &&
                             <li className="nav-item">
-                                <Link className="nav-link" to="userList">User List</Link>
+                                <Link className="nav-link" to="/userList">User List</Link>
                             </li>
                         }
                         <li className="nav-item">
-                            <Link className="nav-link" to="search">Search</Link>
+                            <Link className="nav-link" to="/search">Search</Link>
                         </li>
                     </ul>
                     {user && <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {user.username}</h4>}
