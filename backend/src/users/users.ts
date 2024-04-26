@@ -99,7 +99,15 @@ async function deleteUser(req: Request, res: Response) {
         return;
     }
     userModel.findByIdAndDelete(params['id']).then((user) => {
-        user ? res.status(204).send() : res.status(404).send('User not found');
+
+        if (user) {
+            if (user.role === 'admin' && !requester?.isSuperAdmin) {
+                res.status(403).send('Forbidden');
+                return;
+            } res.status(204).send()
+        } else {
+            res.status(404).send('User not found');
+        }
     }, (err) => {
         res.status(500).send();
         console.log(`deleteUser ${err}`);

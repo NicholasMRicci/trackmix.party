@@ -22,6 +22,7 @@ export function UserList() {
             });
         });
     }
+    console.log(users)
     return (
         <div>
             <h1>Users</h1>
@@ -34,7 +35,7 @@ export function UserList() {
                                     <div className="d-flex justify-content-between">
                                         <h4 className=""><FontAwesomeIcon fill="solid" color="black" icon={faUser} /> {user.username}</h4>
                                         <div className="">
-                                            {user._id !== myUser._id && <button onClick={() => { handleDelete(user._id) }} className="btn btn-danger">Delete</button>}
+                                            {user._id !== myUser._id && (user.role !== "admin" || myUser.isSuperAdmin) && <button onClick={() => { handleDelete(user._id) }} className="btn btn-danger">Delete</button>}
                                         </div>
                                     </div>
                                     <hr></hr>
